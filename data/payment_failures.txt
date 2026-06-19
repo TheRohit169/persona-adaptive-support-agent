@@ -1,0 +1,76 @@
+PAYMENT FAILURES - TROUBLESHOOTING AND RESOLUTION GUIDE
+========================================================
+
+OVERVIEW
+--------
+Payment processing failures can occur at multiple points in the transaction pipeline. This document covers error types, root causes, and resolution procedures for users and support agents.
+
+PAYMENT ERROR CODES
+-------------------
+- PAY_001: Card declined by issuing bank
+- PAY_002: Insufficient funds
+- PAY_003: Card expired
+- PAY_004: Invalid CVV/security code
+- PAY_005: Billing address mismatch (AVS failure)
+- PAY_006: Card velocity limit exceeded
+- PAY_007: Suspected fraud – transaction blocked by fraud engine
+- PAY_008: Payment gateway timeout (retry safe)
+- PAY_009: Currency not supported in your region
+- PAY_010: 3D Secure authentication failed
+- PAY_011: Card not enrolled in 3D Secure
+
+IMMEDIATE STEPS FOR USERS
+--------------------------
+
+Step 1: Verify Card Details
+- Re-enter card number, expiry date, and CVV carefully
+- Ensure billing address exactly matches what is registered with your bank
+- Check that your card has not expired
+
+Step 2: Contact Your Bank
+- The most common cause of payment failure is a block placed by the issuing bank
+- Call the number on the back of your card and ask them to authorize the transaction
+- Mention the merchant name: YourSaaS Product Inc.
+- Ask them to whitelist future recurring charges
+
+Step 3: Try a Different Payment Method
+- Use a different credit or debit card
+- Use PayPal (available in 45+ countries)
+- Use bank transfer / ACH (US customers only, 3–5 business day processing)
+- Use SEPA Direct Debit (EU customers only)
+
+Step 4: Check for 3D Secure Prompts
+- Some transactions require OTP (One-Time Password) verification via SMS
+- Ensure your mobile number is current with your bank
+- Complete the verification within 5 minutes before the session expires
+
+Step 5: Disable VPN
+- VPN usage can trigger fraud detection if the transaction IP mismatches the billing country
+- Disable VPN and retry the transaction
+
+RETRY POLICY
+------------
+- Automatic retry: Failed subscription payments are retried on days 3, 7, and 14
+- If all retries fail, the account moves to "Past Due" status
+- Past Due accounts retain access for 7 days, after which access is suspended
+- To restore access, update payment method in Account Settings → Billing
+
+REFUND POLICY SUMMARY
+---------------------
+- Accidental duplicate charges are refunded within 5–7 business days
+- For refund requests, see the Refund Policy document
+- All refund requests must go through the billing team
+
+FRAUD BLOCKS
+------------
+- If PAY_007 appears, the transaction has been flagged by the automated fraud system
+- This cannot be resolved by support agents – it requires manual fraud team review
+- Submit a support ticket with subject line: "PAY_007 Fraud Block – [your account email]"
+- Resolution time: 2–4 business hours
+
+AGENT ESCALATION TRIGGERS
+--------------------------
+- Customer reports PAY_007 and bank confirms no block on their end
+- Customer has updated payment method but subscription is still suspended
+- Customer reports being charged but not receiving access
+- Any chargeback or dispute filed through the bank

@@ -1,0 +1,103 @@
+EMAIL VERIFICATION - USER GUIDE AND TROUBLESHOOTING
+=====================================================
+
+OVERVIEW
+--------
+Email verification is required for all new accounts and certain account changes. This guide explains the verification process and how to resolve common problems.
+
+WHY EMAIL VERIFICATION IS REQUIRED
+------------------------------------
+- Confirms ownership of the email address
+- Enables password reset and security notifications
+- Required for compliance with data protection regulations (GDPR, CCPA)
+- Prevents spam and fraudulent account creation
+
+INITIAL ACCOUNT VERIFICATION
+------------------------------
+When you create a new account:
+  1. A verification email is sent immediately to your registered address
+  2. Subject line: "Confirm your YourSaaS Product account – action required"
+  3. Click the "Confirm Email Address" button in the email
+  4. Link expires after 48 hours
+
+Account access before verification:
+  - Read-only access to the dashboard
+  - Cannot invite team members
+  - Cannot upgrade subscription
+  - Cannot use API keys
+  - Full access unlocked after verification
+
+RESENDING THE VERIFICATION EMAIL
+----------------------------------
+If you did not receive the verification email:
+  1. Log in to your account (or go to the login page)
+  2. You will see a yellow banner: "Please verify your email address"
+  3. Click "Resend verification email"
+  4. You may resend up to 5 times per hour
+
+COMMON DELIVERY ISSUES
+-----------------------
+
+Problem: Email not received after 5 minutes
+  Solutions:
+    1. Check your spam/junk folder
+    2. Search for sender: noreply@yoursaasproduct.com
+    3. If using corporate email, ask your IT team to whitelist: *.yoursaasproduct.com
+    4. Try adding noreply@yoursaasproduct.com to your contacts and resend
+    5. If using Gmail, check the "Promotions" and "Updates" tabs
+
+Problem: Verification link says "Link has expired"
+  Solution: Request a new verification email. Links expire after 48 hours.
+
+Problem: Verification link says "Link already used"
+  Solution: Your email is already verified. Try logging in. If login fails, use Password Reset.
+
+Problem: Verification link says "Invalid token"
+  Cause: The link was corrupted, often by email clients that "wrap" URLs in tracking links
+  Solution:
+    1. Do not copy-paste the link manually
+    2. Click directly on the button or hyperlink in the email
+    3. If your email client breaks links, request a new verification email
+    4. Contact support if the issue persists
+
+CHANGING YOUR EMAIL ADDRESS
+----------------------------
+To change the email address on your account:
+  1. Go to Account Settings → Profile
+  2. Click "Change Email Address"
+  3. Enter new email address
+  4. A verification email is sent to BOTH the old and new address
+  5. Click the link in the new email to confirm the change
+  6. The old email receives a security notice
+
+Note: You must have access to your current email to change it. If you have lost access, contact support with account ownership verification documents.
+
+EMAIL DOMAIN RESTRICTIONS
+--------------------------
+The following email domains cannot be used for account registration:
+  - Temporary/disposable email services (e.g., mailinator.com, guerrillamail.com)
+  - Generic role addresses (e.g., admin@, info@, noreply@) are not recommended; verification emails may not be monitored
+
+DELIVERABILITY REQUIREMENTS
+-----------------------------
+If you are receiving verification emails but they go to spam:
+  1. Mark the email as "Not Spam"
+  2. Add noreply@yoursaasproduct.com as a contact
+  3. Ask your IT/email admin to add to the allowlist:
+     - SPF: include:_spf.yoursaasproduct.com
+     - DKIM: yoursaasproduct.com._domainkey
+     - Our sending IP range: 198.51.100.0/24
+
+ENTERPRISE AND SSO USERS
+--------------------------
+If your organization uses Single Sign-On (SSO/SAML):
+  - Email verification may be bypassed if your IdP confirms the email attribute
+  - Contact your IT administrator to confirm the email attribute is correctly configured
+  - The attribute name expected is: email or mail
+
+SUPPORT ESCALATION
+------------------
+If email verification cannot be completed after all steps:
+  - Contact support: support@yoursaasproduct.com
+  - Include: account email, date/time of signup, email provider being used
+  - A support agent can manually verify your email after identity confirmation

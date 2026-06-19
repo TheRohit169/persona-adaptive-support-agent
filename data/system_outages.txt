@@ -1,0 +1,109 @@
+SYSTEM OUTAGES - INCIDENT RESPONSE AND CUSTOMER COMMUNICATION
+==============================================================
+
+OVERVIEW
+--------
+This document describes how YourSaaS Product handles system outages, communicates with affected customers, and what customers can expect during and after incidents.
+
+STATUS PAGE
+-----------
+Real-time system status: https://status.yoursaasproduct.com
+Subscribe to updates: https://status.yoursaasproduct.com/subscribe
+
+Status levels displayed on the status page:
+  - Operational: All systems functioning normally
+  - Degraded Performance: Partial slowdown affecting a subset of users
+  - Partial Outage: Core features unavailable for some users or regions
+  - Major Outage: Critical systems unavailable for all or most users
+  - Under Maintenance: Planned maintenance window in progress
+
+INCIDENT SEVERITY LEVELS
+-------------------------
+
+P0 - Critical:
+  Definition: Complete service unavailability or data integrity risk
+  Response time: 15 minutes (detection to public acknowledgment)
+  Resolution target: 2 hours
+  Communication: Every 30 minutes via status page + email + in-app banner
+
+P1 - High:
+  Definition: Core feature unavailable for >20% of users
+  Response time: 30 minutes
+  Resolution target: 4 hours
+  Communication: Every 60 minutes via status page + email
+
+P2 - Medium:
+  Definition: Feature degradation, minor errors, or isolated impact
+  Response time: 2 hours
+  Resolution target: 24 hours
+  Communication: Status page update only
+
+P3 - Low:
+  Definition: Cosmetic issues or edge case bugs with no functional impact
+  Response time: 24 hours
+  Resolution target: Next release sprint
+  Communication: Release notes
+
+PLANNED MAINTENANCE WINDOWS
+----------------------------
+Scheduled maintenance occurs on:
+  - Tuesdays, 02:00 – 04:00 UTC (infrastructure updates)
+  - Last Sunday of each month, 00:00 – 06:00 UTC (major version deployments)
+
+Advance notice:
+  - 72-hour notice for maintenance affecting core features
+  - 7-day notice for maintenance exceeding 2 hours
+
+WHAT TO DO DURING AN OUTAGE
+------------------------------
+
+For Users:
+  1. Check https://status.yoursaasproduct.com first
+  2. Subscribe to incident updates for real-time notifications
+  3. Avoid repeated login attempts (they won't resolve platform-side issues)
+  4. Save any unsaved work locally if the application is partially responsive
+  5. Wait for the all-clear update before retrying critical operations
+
+For API Integrations:
+  1. Implement circuit breaker logic to stop sending requests during outages
+  2. Queue non-critical operations locally and replay after restoration
+  3. Monitor the /v1/health endpoint for automated detection:
+     GET https://api.yoursaasproduct.com/v1/health
+     Response: {"status": "healthy|degraded|down", "timestamp": "..."}
+  4. Set appropriate timeout values (recommended: 30 seconds connect, 60 seconds read)
+
+POST-INCIDENT REPORTS
+----------------------
+After P0 and P1 incidents, a Post-Incident Report (PIR) is published within 72 hours at:
+https://status.yoursaasproduct.com/incidents
+
+PIRs include:
+  - Incident timeline
+  - Root cause analysis
+  - Impact summary (users affected, duration)
+  - Remediation steps taken
+  - Preventive measures to avoid recurrence
+
+SLA CREDITS FOR OUTAGES
+-----------------------
+Customers on Professional and Enterprise plans are eligible for SLA credits:
+  - Downtime of 0.1% – 1%: 10% credit on monthly invoice
+  - Downtime of 1% – 5%: 25% credit on monthly invoice
+  - Downtime >5%: 50% credit on monthly invoice
+
+Calculating downtime:
+  Monthly SLA target: 99.9% uptime = max 43.8 minutes downtime per month
+  Credits are applied automatically to the next billing cycle
+  Submit a credit request if not automatically applied: billing@yoursaasproduct.com
+
+HISTORICAL UPTIME
+-----------------
+Our 12-month rolling average uptime: 99.97%
+Longest consecutive uptime: 287 days
+
+DISASTER RECOVERY
+-----------------
+RTO (Recovery Time Objective): 2 hours for P0 incidents
+RPO (Recovery Point Objective): Maximum 15 minutes of data loss in catastrophic scenarios
+Backup frequency: Continuous for transactions; hourly for application state
+Geo-redundancy: Active-active across US-East, US-West, EU-West, and AP-Southeast regions

@@ -1,0 +1,13 @@
+.env
+
+__pycache__/
+*.pyc
+
+chroma_db/
+
+venv/
+.venv/
+
+.streamlit/
+
+.DS_Store

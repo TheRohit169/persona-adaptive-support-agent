@@ -1,0 +1,107 @@
+SERVICE LEVEL AGREEMENT (SLA) - SUMMARY DOCUMENT
+==================================================
+
+EFFECTIVE DATE: January 1, 2024
+APPLIES TO: Professional and Enterprise Plans
+
+1. UPTIME COMMITMENT
+--------------------
+YourSaaS Product commits to the following monthly uptime percentages:
+
+  Professional Plan: 99.9% uptime
+    - Maximum downtime: 43 minutes and 49 seconds per month
+    - Credit: 10% per 0.1% below target, up to 30% monthly credit
+
+  Enterprise Plan: 99.95% uptime
+    - Maximum downtime: 21 minutes and 54 seconds per month
+    - Credit: 15% per 0.05% below target, up to 50% monthly credit
+    - Includes optional dedicated infrastructure with 99.99% SLA available
+
+Starter Plan: Best-effort, no SLA commitment.
+
+2. RESPONSE TIME SLA
+--------------------
+  - P0 (Critical): First response within 15 minutes (Enterprise); 30 minutes (Professional)
+  - P1 (High): First response within 1 hour (Enterprise); 4 hours (Professional)
+  - P2 (Medium): First response within 8 hours (all plans)
+  - P3 (Low): First response within 2 business days (all plans)
+
+Support hours:
+  - Starter: Business hours only (Mon–Fri, 09:00–18:00 UTC)
+  - Professional: Extended hours (Mon–Fri, 06:00–22:00 UTC)
+  - Enterprise: 24/7/365 support with dedicated account manager
+
+3. PERFORMANCE SLA
+------------------
+  - API response time: 95th percentile < 500ms for standard endpoints
+  - Dashboard load time: < 2 seconds for 95% of page loads
+  - Data processing latency: < 60 seconds for standard reports
+
+4. WHAT IS EXCLUDED FROM SLA
+-----------------------------
+The SLA does not apply to downtime caused by:
+  - Customer configuration errors or misuse of the API
+  - Third-party service failures outside our control
+  - Force majeure events (natural disasters, government actions, etc.)
+  - Scheduled maintenance windows (communicated in advance per policy)
+  - Denial of Service (DoS/DDoS) attacks
+  - User-initiated actions (e.g., account deletion, rate limit breaches)
+
+5. HOW DOWNTIME IS CALCULATED
+------------------------------
+  - Calculated per calendar month
+  - Measured from public monitoring data at https://status.yoursaasproduct.com
+  - "Downtime" = complete inability to access core features (login, dashboard, API)
+  - Performance degradation alone does not count unless agreed separately in Enterprise SLA
+
+6. SLA CREDIT PROCESS
+----------------------
+  - Credits applied automatically within 5 business days of month close
+  - If automatic credit not received, submit claim within 30 days of incident
+  - Claims: billing@yoursaasproduct.com with subject "SLA Credit Request – [Month Year]"
+  - Credits are non-transferable and cannot be exchanged for cash
+  - Credits capped at the monthly subscription fee for the affected month
+
+7. ENTERPRISE CUSTOM SLA
+-------------------------
+Enterprise customers may negotiate custom SLA terms including:
+  - Higher uptime commitments (up to 99.99%)
+  - Custom response time requirements
+  - Dedicated infrastructure options
+  - Financial penalties in addition to service credits
+  - Custom maintenance windows
+
+Contact your account manager to discuss custom SLA arrangements.
+
+8. DATA RETENTION SLA
+----------------------
+  - User data retained for the duration of the subscription
+  - 30-day data export window after account cancellation
+  - Backups retained for 90 days (Enterprise: 365 days)
+  - Data deletion completed within 30 days of account closure
+
+9. SUPPORT CHANNELS BY PLAN
+----------------------------
+  Starter:
+    - Email support only
+    - Community forums
+    - Self-service knowledge base
+
+  Professional:
+    - Email support
+    - Live chat (business hours)
+    - Priority queue (faster response than Starter)
+
+  Enterprise:
+    - All Professional channels
+    - Phone support (24/7)
+    - Dedicated account manager
+    - Slack Connect channel option
+    - Quarterly business reviews
+    - Early access to new features
+
+10. CONTACT FOR SLA MATTERS
+----------------------------
+  SLA Compliance: sla@yoursaasproduct.com
+  Billing Credits: billing@yoursaasproduct.com
+  Enterprise Account Management: enterprise@yoursaasproduct.com

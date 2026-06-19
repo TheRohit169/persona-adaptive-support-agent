@@ -1,0 +1,115 @@
+COOKIE AND SESSION TROUBLESHOOTING GUIDE
+=========================================
+
+OVERVIEW
+--------
+Browser cookie and session issues cause a wide range of login, dashboard, and functionality problems. This guide covers cookie-related errors and their resolutions.
+
+HOW THE PLATFORM USES COOKIES
+------------------------------
+YourSaaS Product uses the following cookies:
+
+1. session_id (Required)
+   - Type: HttpOnly, Secure, SameSite=Strict
+   - Expiry: 8 hours (extended to 30 days with "Remember Me")
+   - Purpose: Maintains authenticated session
+
+2. csrf_token (Required)
+   - Type: SameSite=Strict
+   - Expiry: Session
+   - Purpose: Cross-site request forgery protection
+
+3. user_preferences (Optional)
+   - Type: SameSite=Lax
+   - Expiry: 1 year
+   - Purpose: Stores UI preferences (theme, language, timezone)
+
+4. analytics_id (Optional)
+   - Type: SameSite=Lax
+   - Expiry: 2 years
+   - Purpose: Anonymous usage analytics (opt-out available in Privacy Settings)
+
+COMMON COOKIE ERRORS
+---------------------
+
+Error: "Your session has expired. Please log in again."
+  - Cause: session_id cookie expired or was deleted
+  - Fix: Log in again. Enable "Remember Me" for 30-day sessions
+
+Error: "CSRF token validation failed."
+  - Cause: csrf_token cookie missing or mismatched (common after browser update)
+  - Fix: Clear cookies for the domain and log in again
+  - Technical cause: This occurs when a form submission's token doesn't match the cookie
+
+Error: "Unable to save your preferences."
+  - Cause: user_preferences cookie blocked by browser settings
+  - Fix: Allow cookies from app.yoursaasproduct.com in browser settings
+
+Error: "You are not authorized to perform this action." (after login)
+  - Cause: Session cookie set for wrong subdomain
+  - Fix: Log out, clear cookies, log in at the correct URL (app.yoursaasproduct.com)
+
+THIRD-PARTY COOKIE RESTRICTIONS
+---------------------------------
+Modern browsers (Chrome 120+, Safari, Firefox) restrict third-party cookies.
+Impact: Embedded widgets, iframes, or integrations hosted on third-party domains may lose session context.
+
+Resolution for developers:
+  - Use the postMessage API for cross-origin communication
+  - Implement OAuth 2.0 token-based auth instead of cookie session sharing
+  - Use the dedicated partner API with long-lived API keys for integrations
+
+HOW TO CLEAR COOKIES FOR THIS SITE
+------------------------------------
+
+Chrome:
+  1. Press F12 → Application tab → Cookies → yoursaasproduct.com
+  2. Select all cookies → Delete
+  OR
+  1. Address bar: click lock icon → Cookies → Remove all cookies for this site
+
+Firefox:
+  1. F12 → Storage tab → Cookies → yoursaasproduct.com
+  2. Right-click → Delete All
+
+Safari:
+  1. Develop menu → Show Web Inspector → Storage → Cookies
+  2. Right-click domain → Clear
+
+ENABLING COOKIES IN BROWSER SETTINGS
+--------------------------------------
+
+Chrome:
+  Settings → Privacy and Security → Third-party cookies → Allow all cookies (or add exception for yoursaasproduct.com)
+
+Firefox:
+  Settings → Privacy & Security → Custom → Cookies: All cookies
+
+Safari:
+  Preferences → Privacy → Prevent cross-site tracking: Uncheck (or add exception)
+
+COOKIE DEBUGGING FOR DEVELOPERS
+---------------------------------
+Inspect active cookies:
+  document.cookie  // Only non-HttpOnly cookies
+  DevTools → Application → Cookies → yoursaasproduct.com
+
+Check session validity via API:
+  GET /v1/auth/session
+  Headers: Cookie: session_id=<value>
+  Response 200: Session active
+  Response 401: Session expired or invalid
+
+SAMESITE ATTRIBUTE ISSUES
+--------------------------
+If you are building a custom integration and encountering SameSite errors:
+  - The session_id cookie requires SameSite=Strict, meaning it will NOT be sent on cross-origin requests
+  - Use the API key + Bearer token authentication for cross-origin or server-to-server calls
+  - OAuth 2.0 PKCE flow is recommended for SPAs embedded in third-party domains
+
+CONTACT SUPPORT
+---------------
+If cookie errors persist after following all steps:
+  1. Export browser console errors (F12 → Console → Right-click → Save as)
+  2. Note your browser version and OS
+  3. Submit a ticket at support.yoursaasproduct.com with the exported console log

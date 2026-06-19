@@ -1,0 +1,125 @@
+DASHBOARD ACCESS ISSUES - TROUBLESHOOTING GUIDE
+================================================
+
+OVERVIEW
+--------
+This guide covers issues with accessing, loading, or using the YourSaaS Product dashboard, including blank screens, permission errors, missing features, and loading failures.
+
+COMMON DASHBOARD ERRORS
+------------------------
+
+Error: "403 Forbidden – You don't have permission to access this resource"
+  Cause: Role or permission mismatch
+  Fix:
+    1. Ask your workspace admin to verify your role (Settings → Team → Members)
+    2. Required roles: Viewer (read-only), Editor (modify), Admin (full access)
+    3. Your admin can update roles at: Settings → Team → [your name] → Change Role
+
+Error: "Dashboard failed to load. Please refresh." (infinite spinner)
+  Causes: Network issues, browser cache, CDN problems, or account suspension
+  Fix:
+    1. Hard refresh: Ctrl+Shift+R (Windows/Linux) or Cmd+Shift+R (Mac)
+    2. Clear browser cache for yoursaasproduct.com
+    3. Check https://status.yoursaasproduct.com for active incidents
+    4. Try a different browser
+    5. Disable browser extensions (especially ad blockers and privacy tools)
+
+Error: "Your account has been suspended."
+  Cause: Payment failure, ToS violation, or admin action
+  Fix:
+    - Payment failure: Update payment method at Settings → Billing
+    - If you believe this is an error: Contact support immediately
+    - ToS violation: Contact support for clarification
+
+Error: "Feature not available on your current plan."
+  Cause: Attempting to access a feature above your subscription tier
+  Fix: Upgrade your plan at Settings → Subscription
+
+DASHBOARD LOADING SLOWLY
+--------------------------
+If the dashboard loads but is slow:
+  1. Check your internet connection speed (minimum recommended: 5 Mbps)
+  2. Reduce the date range in reports (large date ranges = more data to load)
+  3. Clear browser cache and cookies
+  4. Use Chrome or Firefox for best performance (Edge and Safari supported but may be slower)
+  5. Close unused browser tabs (memory-intensive dashboards compete for RAM)
+  6. Check if the slowness is on all pages or specific pages only
+
+BLANK/WHITE SCREEN AFTER LOGIN
+---------------------------------
+  1. Open browser console (F12 → Console) and check for errors
+  2. Common causes:
+     - JavaScript blocked by Content Security Policy
+     - Ad blocker blocking essential scripts
+     - Corrupted localStorage data
+  3. Fix: Try incognito mode. If that works, clear localStorage:
+     - F12 → Application → Local Storage → yoursaasproduct.com → Clear All
+  4. If console shows ERR_BLOCKED_BY_CLIENT: Disable ad blocker for this domain
+
+ROLE AND PERMISSION REFERENCE
+-------------------------------
+  Viewer:
+    - Read-only access to dashboards and reports
+    - Cannot create, edit, or delete resources
+    - Cannot invite team members
+
+  Editor:
+    - All Viewer permissions
+    - Create and edit resources
+    - Cannot manage team members or billing
+    - Cannot change account settings
+
+  Admin:
+    - All Editor permissions
+    - Manage team members (invite, remove, change roles)
+    - Access billing and subscription settings
+    - Configure integrations and webhooks
+    - Access audit logs
+
+  Owner (single per workspace):
+    - All Admin permissions
+    - Transfer ownership
+    - Delete the workspace
+    - Cannot be removed by Admins
+
+SINGLE SIGN-ON (SSO) DASHBOARD ACCESS
+---------------------------------------
+If your company uses SSO:
+  1. Always log in via https://app.yoursaasproduct.com/sso
+  2. Do NOT use the regular login form (it will fail)
+  3. Enter your company email domain when prompted
+  4. You will be redirected to your company's IdP (Okta, Azure AD, Google Workspace, etc.)
+  5. After authenticating with your company credentials, you will be redirected back
+
+SSO troubleshooting:
+  - "SAML assertion failed": Contact your IT admin to verify the SAML configuration
+  - "No account found for this SSO identity": Your account may not be provisioned; ask your admin
+  - "SSO session expired": Re-authenticate via https://app.yoursaasproduct.com/sso
+
+BROWSER AND SYSTEM REQUIREMENTS
+---------------------------------
+  Supported browsers:
+    - Chrome 100+
+    - Firefox 100+
+    - Safari 15+
+    - Edge 100+
+
+  Unsupported:
+    - Internet Explorer (all versions)
+    - Chrome versions below 100
+
+  Minimum screen resolution: 1280 × 720 px
+  JavaScript: Must be enabled
+  Cookies: Must be enabled for yoursaasproduct.com
+
+EXPORTING DASHBOARD DATA
+-------------------------
+  - CSV export: Click the download icon on any table view
+  - PDF export: Report menu → Export as PDF (Professional+ plan only)
+  - API access: All dashboard data is accessible via /v1/reports endpoint
+
+CONTACT
+-------
+  Dashboard issues: support@yoursaasproduct.com
+  Permission issues: Ask your workspace Admin first
+  Urgent access issues: Live chat available Mon–Fri 09:00–18:00 UTC

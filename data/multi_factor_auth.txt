@@ -1,0 +1,130 @@
+MULTI-FACTOR AUTHENTICATION (MFA) - SETUP AND TROUBLESHOOTING
+==============================================================
+
+OVERVIEW
+--------
+Multi-Factor Authentication (MFA) adds a second layer of security to your account beyond username and password. YourSaaS Product supports several MFA methods.
+
+SUPPORTED MFA METHODS
+----------------------
+
+1. Authenticator App (TOTP – Recommended)
+   - Compatible apps: Google Authenticator, Authy, Microsoft Authenticator, 1Password
+   - Generates a 6-digit code that refreshes every 30 seconds
+   - Works offline after setup
+   - Most secure option
+
+2. SMS/Text Message
+   - 6-digit code sent to your registered phone number
+   - Requires mobile signal at login time
+   - Backup option; less secure than authenticator app
+
+3. Email OTP
+   - 6-digit code sent to your registered email
+   - Available only if authenticator and SMS are unavailable
+   - Code expires after 10 minutes
+
+4. Hardware Security Key (Enterprise only)
+   - FIDO2/WebAuthn compatible devices (YubiKey, Google Titan)
+   - Plug-in USB or tap NFC to authenticate
+   - Strongest security; recommended for high-value accounts
+
+HOW TO ENABLE MFA
+-----------------
+  1. Log in to your account
+  2. Go to Settings → Security → Multi-Factor Authentication
+  3. Click "Enable MFA"
+  4. Choose your preferred method
+  5. For Authenticator App:
+     a. Install an authenticator app on your mobile device
+     b. Scan the QR code displayed on screen
+     c. Enter the 6-digit code from the app to verify setup
+     d. Save your backup recovery codes (10 single-use codes)
+  6. Click "Confirm Setup"
+  7. MFA is now active on your account
+
+BACKUP RECOVERY CODES
+---------------------
+  - Generated during MFA setup
+  - 10 single-use codes; each can only be used once
+  - Store securely offline (password manager, printed document in safe)
+  - To regenerate: Settings → Security → MFA → Regenerate Recovery Codes
+  - WARNING: Old codes are invalidated when you regenerate new ones
+
+COMMON MFA ISSUES
+-----------------
+
+Problem: "Invalid verification code" error
+  Cause 1: Time sync issue – TOTP codes are time-sensitive
+    Fix:
+      - Ensure your phone's date/time is set to "automatic" / network time
+      - Android: Settings → General Management → Date and Time → Automatic
+      - iOS: Settings → General → Date & Time → Set Automatically
+      - Most authenticator apps have a "Sync" or "Refresh" option
+      - Try the code immediately after it refreshes (don't wait until end of 30s)
+
+  Cause 2: Wrong account in authenticator
+    Fix: Scroll through your authenticator app to find the correct entry for "YourSaaS Product"
+
+  Cause 3: Authenticator app and server out of sync by >30 seconds
+    Fix: Use a recovery code to log in, then re-setup MFA
+
+Problem: "I lost access to my authenticator app / phone"
+  Options:
+    1. Use a backup recovery code (Settings → Security → Recovery Codes)
+    2. If you saved backup codes during setup, enter one on the MFA screen
+    3. If no recovery codes available:
+       - Contact support: support@yoursaasproduct.com
+       - Subject: "MFA Recovery – [your account email]"
+       - You will need to verify identity via:
+         a. Photo ID matching account name
+         b. Original payment method confirmation
+         c. Last login date/location (approximate)
+       - Recovery process takes 24–48 hours
+
+Problem: "Not receiving SMS codes"
+  Causes and fixes:
+    1. Check network signal strength
+    2. Verify phone number in Settings → Profile → Phone Number
+    3. SMS blocked by carrier: Try switching to authenticator app
+    4. International number: Ensure country code is correct (+1 for US, etc.)
+    5. Request the SMS again after 60 seconds (codes expire in 5 minutes)
+
+DISABLING MFA
+-------------
+  Warning: Disabling MFA reduces your account security.
+
+  To disable:
+    1. Settings → Security → Multi-Factor Authentication
+    2. Click "Disable MFA"
+    3. Enter your current MFA code to confirm
+    4. MFA is immediately disabled
+
+  Note: Workspace admins can enforce mandatory MFA for all team members.
+  If MFA is enforced by your organization, you cannot disable it without admin approval.
+
+MFA FOR ENTERPRISE / TEAM ACCOUNTS
+-------------------------------------
+  Admin controls:
+    - Require MFA for all members: Settings → Workspace → Security Policy → Require MFA
+    - Members have 7 days to set up MFA after enforcement
+    - Members who do not set up MFA within 7 days lose access until they complete setup
+    - Admins can see MFA status for all members in Settings → Team
+
+  SSO users:
+    - MFA may be handled at the Identity Provider (Okta, Azure AD, Google Workspace)
+    - If your IdP handles MFA, platform-level MFA is automatically bypassed
+    - Consult your IT admin for your organization's MFA policy
+
+API AUTHENTICATION AND MFA
+---------------------------
+  - API keys are not subject to MFA (MFA is for human login sessions only)
+  - Create API keys at: Settings → Developer → API Keys
+  - Treat API keys as passwords; do not expose them in client-side code or public repositories
+  - Use environment variables or secrets managers for API key storage
+
+CONTACT
+-------
+  MFA issues: support@yoursaasproduct.com
+  MFA recovery (identity verification required): support@yoursaasproduct.com
+  Enterprise MFA policy: your workspace admin or enterprise@yoursaasproduct.com

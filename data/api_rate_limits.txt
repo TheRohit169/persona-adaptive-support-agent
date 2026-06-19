@@ -1,0 +1,125 @@
+API RATE LIMITS - TECHNICAL REFERENCE
+======================================
+
+OVERVIEW
+--------
+Rate limiting protects the platform from abuse and ensures fair resource distribution. All API endpoints enforce rate limits based on subscription tier and endpoint sensitivity.
+
+RATE LIMIT TIERS
+----------------
+
+Starter Plan:
+  - 100 requests per minute (RPM)
+  - 10,000 requests per day (RPD)
+  - 1 MB max request body
+  - 5 concurrent connections
+
+Professional Plan:
+  - 1,000 requests per minute (RPM)
+  - 100,000 requests per day (RPD)
+  - 10 MB max request body
+  - 25 concurrent connections
+
+Enterprise Plan:
+  - 10,000 requests per minute (RPM)
+  - Unlimited daily requests (fair use policy applies)
+  - 100 MB max request body
+  - 100 concurrent connections
+  - Dedicated rate limit pools per API key
+
+RATE LIMIT HEADERS
+------------------
+Every API response includes these headers:
+  X-RateLimit-Limit: <maximum requests allowed in window>
+  X-RateLimit-Remaining: <requests remaining in current window>
+  X-RateLimit-Reset: <Unix timestamp when window resets>
+  X-RateLimit-RetryAfter: <seconds to wait before retrying (only on 429)>
+
+HTTP 429 TOO MANY REQUESTS
+---------------------------
+When rate limit is exceeded, the API returns:
+  Status: 429 Too Many Requests
+  Body: {
+    "error": "rate_limit_exceeded",
+    "message": "You have exceeded your rate limit.",
+    "retry_after": 60,
+    "limit": 100,
+    "window": "1m"
+  }
+
+HANDLING 429 IN CODE
+---------------------
+
+Python example with exponential backoff:
+
+  import time
+  import requests
+
+  def api_call_with_retry(url, headers, max_retries=5):
+      for attempt in range(max_retries):
+          response = requests.get(url, headers=headers)
+          if response.status_code == 429:
+              retry_after = int(response.headers.get('X-RateLimit-RetryAfter', 60))
+              wait = retry_after * (2 ** attempt)
+              print(f"Rate limited. Waiting {wait}s...")
+              time.sleep(wait)
+          else:
+              return response
+      raise Exception("Max retries exceeded")
+
+JavaScript example:
+
+  async function apiCallWithRetry(url, options, maxRetries = 5) {
+    for (let i = 0; i < maxRetries; i++) {
+      const res = await fetch(url, options);
+      if (res.status === 429) {
+        const retryAfter = parseInt(res.headers.get('X-RateLimit-RetryAfter') || '60');
+        await new Promise(r => setTimeout(r, retryAfter * 1000 * Math.pow(2, i)));
+      } else {
+        return res;
+      }
+    }
+    throw new Error('Max retries exceeded');
+  }
+
+BURST ALLOWANCE
+---------------
+All tiers have a burst allowance of 2x the per-minute limit for up to 5 seconds.
+Example: Professional plan (1,000 RPM) can burst to 2,000 RPM for 5 seconds before throttling.
+
+PER-ENDPOINT LIMITS
+-------------------
+Some endpoints have additional limits regardless of plan:
+  - /v1/auth/token: 20 RPM (all plans)
+  - /v1/users/bulk-import: 5 RPM (max 1,000 users per call)
+  - /v1/reports/generate: 10 RPM (report generation is compute-intensive)
+  - /v1/webhooks/test: 10 RPM
+
+WEBHOOK RATE LIMITS
+-------------------
+Webhook delivery retries follow this schedule:
+  - Immediate delivery attempt
+  - 1 minute retry on failure
+  - 5 minute retry
+  - 30 minute retry
+  - 2 hour retry
+  - 6 hour retry (final attempt)
+  After 6 failed attempts, the webhook is marked as failed. Check endpoint health.
+
+INCREASING RATE LIMITS
+-----------------------
+- Enterprise customers: Contact account manager for dedicated limit increases
+- Professional customers: Submit a rate limit increase request via the developer portal
+- Increases typically take 24–48 hours to provision
+- Custom limits are charged based on usage tiers
+
+MONITORING AND ALERTS
+---------------------
+Set up rate limit monitoring in the Developer Dashboard:
+  Settings → API → Rate Limit Alerts
+  Configure alerts at 75%, 90%, and 100% of your limit
+
+SDK SUPPORT
+-----------
+The official SDKs (Python, JavaScript, Go, Ruby, Java) handle rate limit retries automatically when you enable the retry configuration:
+  client = SaasClient(api_key="...", retry_on_rate_limit=True, max_retries=5)

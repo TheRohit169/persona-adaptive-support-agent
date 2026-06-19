@@ -1,0 +1,73 @@
+LOGIN ISSUES - TROUBLESHOOTING GUIDE
+=====================================
+
+OVERVIEW
+--------
+Login problems are among the most common support requests. This guide covers all known login failure scenarios and their resolutions.
+
+COMMON LOGIN ERROR CODES
+------------------------
+- ERR_AUTH_001: Invalid credentials (username/password mismatch)
+- ERR_AUTH_002: Account locked after 5 failed attempts
+- ERR_AUTH_003: Session token expired
+- ERR_AUTH_004: IP address blocked (suspicious activity)
+- ERR_AUTH_005: Account not yet verified
+- ERR_AUTH_006: Multi-factor authentication required but not configured
+- ERR_AUTH_007: OAuth provider connection failure
+- ERR_AUTH_008: SAML assertion validation failed (SSO users)
+
+STEP-BY-STEP TROUBLESHOOTING
+------------------------------
+
+Step 1: Verify Credentials
+- Confirm you are using the correct email address associated with your account
+- Check for accidental spaces before or after the email/password
+- Ensure Caps Lock is not enabled
+- Try copying and pasting the password from a password manager
+
+Step 2: Check Account Lock Status
+- After 5 failed login attempts, the account is temporarily locked for 30 minutes
+- Locked accounts receive an email notification with an unlock link
+- Wait 30 minutes and retry, or use the unlock link in your email
+- Contact support if you did not receive the unlock email
+
+Step 3: Clear Browser Cache and Cookies
+- Stale cookies or corrupted cache files often cause persistent login failures
+- Chrome: Settings → Privacy and Security → Clear Browsing Data → Cookies and Cache
+- Firefox: Options → Privacy & Security → Clear Data
+- Safari: Preferences → Privacy → Manage Website Data → Remove All
+- After clearing, close all browser tabs and retry login
+
+Step 4: Try a Different Browser or Incognito Mode
+- Open an incognito/private window and attempt login
+- If login succeeds in incognito, a browser extension is interfering
+- Disable extensions one by one to identify the conflict
+
+Step 5: Check for System Outages
+- Visit https://status.yoursaasproduct.com to check for ongoing incidents
+- During outages, login services may be unavailable platform-wide
+
+Step 6: Reset Your Password
+- Click "Forgot Password" on the login page
+- Enter your registered email address
+- Check your inbox (and spam folder) for the reset email
+- Password reset links expire after 24 hours
+
+Step 7: Check Network/Firewall
+- Corporate firewalls may block certain authentication endpoints
+- Whitelist the following domains: auth.yoursaasproduct.com, api.yoursaasproduct.com
+- VPN configurations can conflict with geolocation-based security checks
+- Try disabling VPN temporarily to test
+
+ACCOUNT LOCK POLICY
+-------------------
+- 5 failed attempts in 10 minutes = 30-minute automatic lock
+- 10 failed attempts in 1 hour = 24-hour lock requiring admin unlock
+- 20 failed attempts = permanent lock requiring identity verification
+
+CONTACT SUPPORT
+---------------
+If none of the above steps resolve your issue:
+- Email: support@yoursaasproduct.com
+- Live Chat: Available Mon–Fri, 9 AM – 6 PM UTC
+- Include your account email, error code (if shown), and browser/OS details
